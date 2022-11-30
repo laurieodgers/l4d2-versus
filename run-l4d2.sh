@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # TODO: make these come from args
-RCON_PASSWORD="CHANGEME_321gfda"
+RCON_PASSWORD=""
 L4D2_HOSTNAME="CHANGEME"
 STEAMGROUP_ID="CHANGEME"
 
@@ -21,9 +21,12 @@ if [[ -z ${DOCKER_TAG} ]]; then
     exit 1
 fi
 
-if [[ -z ${} ]]; then
-    echo "enter the RCON_PASSWORD"
-    exit 1
+##
+
+if [[ -z ${RCON_PASSWORD} ]]; then
+    # generate a random pw
+    RCON_PASSWORD=$( cat /dev/urandom | tr -dc '[:alpha:]' | fold -w ${1:-20} | head -n 1 )
+    echo "YOUR RCON PASSWORD IS ${RCON_PASSWORD}"
 fi
 
 if [[ "${PORT}" == "27015" ]] || [[ "${PORT}" == "27016" ]]; then

@@ -27,15 +27,18 @@ fi
 # Server Config
 cat > l4d2/left4dead2/cfg/server.cfg <<EOF
 hostname "${HOSTNAME}"
-sv_steamgroup ${STEAMGROUP}
 sv_region ${REGION}
 rcon_password "${RCON_PASSWORD}"
 sv_logecho 1
 sm_cvar mp_gamemode versus
 sv_gametypes "${GAMETYPES}"
 mp_gamemode "${GAMETYPES}"
-
 EOF
+
+# set steamgroup if received
+if [[ -n "${STEAMGROUP}" ]]; then
+    echo "sv_steamgroup ${STEAMGROUP}" >> l4d2/left4dead2/cfg/server.cfg
+fi
 
 # Start Game
 cd l4d2 && ./srcds_run -console -game left4dead2 -port "$PORT" +maxplayers "$PLAYERS" +sv_gametypes "VERSUS" +map "${MAP_NAME}" versus
